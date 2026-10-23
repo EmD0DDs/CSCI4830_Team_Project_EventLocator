@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'LoginSignup',
 ]
+AUTH_USER_MODEL = 'LoginSignup.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
