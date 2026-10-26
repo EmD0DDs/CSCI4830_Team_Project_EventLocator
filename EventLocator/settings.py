@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'LoginSignup',
+    'HomePage',
 ]
 AUTH_USER_MODEL = 'LoginSignup.User'
 

@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Event Locator</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'LoginSignup/css/login_signup.css' %}">
+        <script src="{% static 'LoginSignup/js/login_signup.js' %}" defer></script>
+    </head>
+    <body>
+        <h1>Welcome to Event Locator</h1>
+        <div class="container" id="container">
+            <div class="form-container signup-container">
+                <h1>Create an account</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{signup.as_p}}
+                    <button type="submit" name="signup_submit">Sign up</button>
+                </form>
+
+            </div>
+            <div class="form-container login_container">
+                <h1>Log In</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{login.as_p}}
+                    <button type="submit" name="login_submit">Login</button>
+                </form>
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Welcome back!</h1>
+                        <p>Ready to find an Event!!</p>
+                        <button class="ghost" id="signIn">Login</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>Join us!</h1>
+                        <p>Discover what's new around!</p>
+                        <button class="ghost" id="signUp">Sign up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </body>
+    
+
+</html>
