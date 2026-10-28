@@ -9,7 +9,7 @@ def login_signup_view(request):
     signup_form = UserSignupForm()
     if request.method == "POST":
         if 'login_submit' in request.POST:
-            login_form = UserLoginForm(request.POST)
+            login_form = UserLoginForm(request, request.POST)
             if login_form.is_valid():
                 login(request, login_form.get_user())
                 return redirect('home')
