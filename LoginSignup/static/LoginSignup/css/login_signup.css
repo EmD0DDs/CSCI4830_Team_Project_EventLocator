@@ -67,24 +67,29 @@ p{
 }
 .form-container input{
     font-family: "Chewy", system-ui;
+    border-radius: 20px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0, 0.22);
     background: transparent;
     border: none;
     padding: 12px 15px;
     margin: 8px 0;
     width: 100%;
+    outline:none;
 
 
 
 }
 
 .form-container input:focus{
-    border-radius: 20px;
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0, 0.22);
+    transform: scale(0.95);
+    
     outline:none;
 }
 
 button {
     font-family: "Shadows Into Light", cursive;
+    margin: 10px;
+    padding: 10px;
     border-radius: 20px;
     border: 1px none;
     background: rgb(146, 232, 247);
@@ -159,6 +164,9 @@ button.ghost{
 
 
 .overlay-container{
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0, 0.22);
+    border-bottom-left-radius: 20px;; 
+    border-top-left-radius: 20px;
     position: absolute;
     top: 0;
     left: 50%;
@@ -217,6 +225,10 @@ button.ghost{
 
 .container.right-panel-active .overlay-container {
     transform: translateX(-100%);
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 .container.right-panel-active .signup-container{
