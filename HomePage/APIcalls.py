@@ -19,7 +19,7 @@ class Events:
         locationData = self.geolocator.geocode(location)
         limit = 50 #I think free plan caps at 50 
         if locationData == None:
-            return list(dict("Error", "Could not find location"))
+            return list({"Error": "Could not find location"})
 
         params = {
             "within": f"{radius}{unit}@{locationData.latitude},{locationData.longitude}",
@@ -62,8 +62,8 @@ class Events:
         return events_data
 
 if __name__ == "__main__":
-    print(Events().get_event("concerts", 100, "mi", "Omaha", 0))
-    print(Events().get_event("concerts", 100, "mi", "Omaha", 50))
+    print(Events().get_event("concerts", 100, "mi", "akubdsyvaiusydaiusyvdiausydvbasiubydvia", 0))
+    print(Events().get_event("concerts", 100, "mi", "akubdsyvaiusydaiusyvdiausydvbasiubydvia", 50))
 
 
 
