@@ -42,11 +42,6 @@ class Events:
         )
         response.raise_for_status()
         data = response.json()
-
-        print("Total matching events:", data.get("count"))
-        print("Results returned:", len(data.get("results", [])))
-        print("More results:", data.get("next"))
-        print("Subscription limit reached:", data.get("overflow"))
         
         for event in data.get('results', []):
             e_data = {
@@ -61,9 +56,12 @@ class Events:
         
         return events_data
 
-if __name__ == "__main__":
-    print(Events().get_event("concerts", 100, "mi", "akubdsyvaiusydaiusyvdiausydvbasiubydvia", 0))
-    print(Events().get_event("concerts", 100, "mi", "akubdsyvaiusydaiusyvdiausydvbasiubydvia", 50))
+
+#add this back if you wanna test the api. Make sure you call it like python .\HomePage\APIcalls.py and from the directory the env is in
+# if __name__ == "__main__":
+#     print(Events().get_event("concerts", 100, "mi", "Omaha", 0))
+#     print(Events().get_event("concerts", 100, "mi", "Omaha", 50))
+
 
 
 
