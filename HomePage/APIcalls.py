@@ -10,7 +10,7 @@ class Events:
         load_dotenv(self.curr_dir/".env")
         self.api_predict= os.getenv("API_PREDICT")
         self.api_token= os.getenv("PREDICT_TOKEN")
-        self.geolocator = Nominatim(user_agent="my_geopy_app", timeout=10)
+        self.geolocator = Nominatim(user_agent="EventLocator", timeout=10)
     
 
 
