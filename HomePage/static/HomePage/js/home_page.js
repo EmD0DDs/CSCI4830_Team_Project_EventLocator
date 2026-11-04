@@ -1,4 +1,6 @@
-navigator.geolocation.getCurrentPosition( 
+const params = new URLSearchParams(window.location.search);
+if (!params.has('lat') || !params.has('lon')) {
+    navigator.geolocation.getCurrentPosition( 
     (position) => {
         
         const lat = position.coords.latitude;
@@ -8,4 +10,7 @@ navigator.geolocation.getCurrentPosition(
     (error) => {
         alert("We couldn't get your location. Please type your city instead.");
     }
-); 
+    ); 
+}
+
+
