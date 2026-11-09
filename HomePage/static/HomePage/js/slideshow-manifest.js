@@ -1,0 +1,1 @@
+window.slideshowImages = ["slide01.png","slide02.jpg","slide03.jpg","slide04.webp","slide05.webp","slide06.jpg","slide08.jpg","slide10.jpg","slide11.jpg","slide12.jpg","slide13.jpg","slide14.jpg"];

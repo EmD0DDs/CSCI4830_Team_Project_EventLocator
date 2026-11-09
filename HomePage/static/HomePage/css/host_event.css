@@ -1,0 +1,81 @@
+/* Host Event frontend-only Figma reproduction. Scoped to .host-page; no shared CSS overrides. */
+.host-page {--host-text-color:#11161b;--host-panel-color:#e7f2f7;--host-accent-color:#079fbb;
+ font-family:Inter,Arial,Helvetica,sans-serif;position:relative;isolation:isolate;
+ /* Treat the photo and form as one compact, centered composition, not a full-window banner. */
+ width:calc(100% - 96px);max-width:1020px;margin:22px auto 30px;
+ min-height:0;box-sizing:border-box;overflow:hidden;
+ padding:18px 34px 25px;background:#fff;color:var(--host-text-color);}
+.host-page *,.host-page *::before,.host-page *::after{box-sizing:border-box;}
+.host-background {z-index:-1;position:absolute;pointer-events:none;inset:0 0 0 auto;width:51%;
+ /* Exact user-approved tall Omaha riverfront image, showing the sky, river and seated person together. */
+ background-image:url('../images/omaha_riverfront_in_soft_haze.png');background-position:center bottom;background-size:cover;
+ background-repeat:no-repeat;
+ /* Fade the actual riverfront photo into the page white at BOTH horizontal edges.
+    Keep the seated subject visible; no white rectangle or hard image boundary. */
+ -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 15%,#000 78%,transparent 100%);
+ mask-image:linear-gradient(to right,transparent 0%,#000 15%,#000 78%,transparent 100%);
+}
+.host-heading{position:relative;display:flex;align-items:center;gap:11px;margin-bottom:19px;}
+.host-icon{width:44px;height:44px;object-fit:contain;}
+.host-heading h1{font:400 clamp(28px,2.8vw,40px)/1.1 Chewy,Inter,sans-serif;margin:0;color:#080a0c;}
+.host-subtitle{font:500 13px/1.4 Inter,Arial,sans-serif;margin:4px 0 0;color:#334455;}
+.event-form-panel {position:relative;z-index:1;width:min(100%,540px);max-width:540px;min-width:0;
+ border-radius:19px;background:rgba(246,250,252,.84);box-shadow:-5px 3px 5px rgba(0,0,0,.14);
+ border:1px solid rgba(224,231,237,.5);padding:18px 23px 18px;backdrop-filter:blur(2px);}
+.form-field{min-width:0;display:flex;flex-direction:column;gap:5px;}
+.form-field label{font:700 clamp(15px,1.28vw,20px)/1.15 Inter,Arial,sans-serif;color:#111;}
+.form-field label span{color:#ee1111;margin-left:1px;}
+.form-field input,.form-field textarea,.form-field select{
+ width:100%;border:1px solid #d5d9dc;outline:0;border-radius:13px;background:white;color:#222;
+ font:500 12px/1.3 Inter,Arial,sans-serif;min-height:34px;padding:7px 12px;
+ transition:border-color .15s,box-shadow .15s;}
+.form-field input:focus,.form-field textarea:focus,.form-field select:focus{
+ border-color:#0698aa;box-shadow:0 0 0 3px rgba(6,152,170,.13);}
+.form-field input::placeholder,.form-field textarea::placeholder{color:#676767;opacity:1;}
+.description-field{margin-top:17px;}
+.description-field textarea{height:100px;min-height:86px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;column-gap:8%;margin-top:13px;}
+.input-icon-wrapper{position:relative;display:flex;align-items:center;}
+.input-icon-wrapper>img,.input-icon-wrapper>svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);height:22px;width:22px;object-fit:contain;pointer-events:none;z-index:2;color:#526065;}
+.input-icon-wrapper input{padding-left:41px;}
+/* Exact renamed location icon; white JPG pixels blend with the white input surface. */
+.input-icon-wrapper>.location-icon{height:24px;width:19px;object-fit:contain;mix-blend-mode:multiply;left:14px;}
+/* User-provided Categories and Visibility icons, same existing two-column fields. */
+.select-icon-wrapper{position:relative;display:flex;align-items:center;min-width:0;}
+.select-icon-wrapper>img{width:19px;height:19px;object-fit:contain;position:absolute;left:12px;z-index:2;pointer-events:none;}
+.select-icon-wrapper select{padding-left:38px;}
+
+.location-field{margin-top:11px;}
+.form-field select{cursor:pointer;appearance:auto;}
+.last-form-row{margin-top:11px;}
+.form-buttons{display:flex;align-items:center;justify-content:flex-end;gap:28px;margin-top:15px;padding-right:10px;}
+.form-buttons button{border-radius:8px;padding:8px 13px;cursor:pointer;
+ font:700 13px/1.2 Inter,Arial,sans-serif;transition:transform .15s,box-shadow .15s;}
+.form-buttons button:hover{transform:translateY(-2px)}
+.cancel-button{border:1px solid #e7e7e7;background:#fff;color:#ff2525;}
+.submit-button{border:1px solid #0c9ab6;background:#029fb6;color:#fff;}
+.form-message{margin:13px 0 0;font:500 12px/1.4 Inter,Arial,sans-serif;color:#1c5960;}
+@media(min-width:1500px){.host-page{padding-top:18px;padding-inline:34px}.event-form-panel{padding:20px 28px 22px}.host-heading{margin-bottom:25px}.form-field input,.form-field textarea,.form-field select{font-size:14px;min-height:42px}.description-field textarea{height:124px;min-height:108px}.form-buttons button{font-size:15px;padding:10px 17px}}
+@media(max-width:850px){.host-page{width:calc(100% - 32px);max-width:none;margin:12px auto 20px;padding:20px 20px 32px}.event-form-panel{width:100%}.host-background{width:58%;opacity:.6}.description-field{margin-top:28px}.form-buttons{gap:18px}}
+@media(max-width:520px){.form-row{grid-template-columns:1fr;gap:15px}.event-form-panel{padding:20px 15px}.host-background{width:100%;opacity:.25}.host-heading{margin-bottom:22px}.description-field textarea{min-height:130px}}
+@media(prefers-reduced-motion:reduce){.form-buttons button{transition:none}}
+
+/* Prevent the composition from touching the browser edges at intermediate widths. */
+@media(min-width:851px) and (max-width:1080px){
+ .host-page{width:calc(100% - 60px);padding-inline:26px}
+ .event-form-panel{width:min(100%,530px)}
+ .host-background{width:49%}
+}
+/* On short desktop screens, compress whitespace before forcing a vertical scrollbar. */
+@media(min-width:851px) and (max-height:740px){
+ .host-page{padding-top:11px;padding-bottom:12px}
+ .host-heading{margin-bottom:10px}
+ .host-icon{width:38px;height:38px}
+ .event-form-panel{padding-top:12px;padding-bottom:12px}
+ .form-field label{font-size:15px}
+ .description-field{margin-top:9px}
+ .description-field textarea{height:78px;min-height:75px}
+ .form-row{margin-top:9px}
+ .location-field,.last-form-row{margin-top:8px}
+ .form-buttons{margin-top:10px}
+}

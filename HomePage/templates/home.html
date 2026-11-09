@@ -1,7 +1,91 @@
 {% extends "base.html" %}
-
+{% load static %}
+{% block title %}Home | EventLocator{% endblock %}
 {% block content %}
-<div>
-    <h1>Welcome to The Event Locator!</h1>
-</div>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chewy&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'HomePage/css/home.css' %}">
+
+<main class="home-page" aria-label="EventLocator home page">
+  <section class="home-banner" aria-labelledby="home-title" data-image-folder="{% static 'HomePage/images/slides/' %}">
+    <div class="banner-slide slide-one" aria-hidden="true"></div>
+    <div class="banner-slide slide-two" aria-hidden="true"></div>
+    <div class="banner-text">
+      <div class="banner-label"><span>EventLocator</span><span class="accent-line" aria-hidden="true"></span></div>
+      <h1 id="home-title" class="banner-title">Discover Events<br><span class="banner-subtitle">in <em>Omaha</em></span></h1>
+    </div>
+  </section>
+
+  <section class="category-list" aria-label="Event categories">
+    <button class="category-button" type="button" data-category="Music" aria-label="Music events">
+      <img src="{% static 'HomePage/images/music.png' %}" alt=""><span>Music</span>
+    </button>
+    <button class="category-button" type="button" data-category="Sports" aria-label="Sports events">
+      <img src="{% static 'HomePage/images/sport.png' %}" alt=""><span>Sports</span>
+    </button>
+    <button class="category-button" type="button" data-category="Communication" aria-label="Communication events">
+      <img src="{% static 'HomePage/images/communication.png' %}" alt=""><span>Communication</span>
+    </button>
+    <button class="category-button" type="button" data-category="Education" aria-label="Education events">
+      <img src="{% static 'HomePage/images/education.png' %}" alt=""><span>Education</span>
+    </button>
+    <button class="category-button" type="button" data-category="Others" aria-label="Other events">
+      <img src="{% static 'HomePage/images/others.png' %}" alt=""><span>Others</span>
+    </button>
+  </section>
+
+  <section class="upcoming-events" aria-labelledby="upcoming-title">
+    <div class="section-heading">
+      <h2 id="upcoming-title">Upcoming Events</h2>
+      <span class="accent-line" aria-hidden="true"></span>
+    </div>
+    {# Demo examples only, not real event listings. API and database integration to follow. #}
+    <div class="event-list">
+      <article class="event-card" data-category="Music" aria-label="Example event: UNO Fall Concert">
+        <div class="event-image">
+          <img src="{% static 'HomePage/images/concert(1).webp' %}" alt="Concert crowd and illuminated stage">
+          <span class="event-date">Nov 7</span>
+          <span class="bookmark-icon" aria-hidden="true"><img src="{% static 'HomePage/images/bookmark.png' %}" alt=""></span>
+        </div>
+        <div class="event-details">
+          <h3>UNO Fall Concert</h3>
+          <p>Baxter Arena</p>
+          <p>Nov 7th 2026 · 7:00 PM</p>
+          <span class="category-label music-label">Music</span>
+        </div>
+      </article>
+      <article class="event-card" data-category="Sports" aria-label="Example event: UNO Mavericks Home Game">
+        <div class="event-image">
+          <img src="{% static 'HomePage/images/Baskeball.jpg' %}" alt="Basketball players on an indoor court">
+          <span class="event-date">Nov 8</span>
+          <span class="bookmark-icon" aria-hidden="true"><img src="{% static 'HomePage/images/bookmark.png' %}" alt=""></span>
+        </div>
+        <div class="event-details">
+          <h3>UNO Mavericks Home Game</h3>
+          <p>Baxter Arena, Omaha, NE</p>
+          <p>Nov 8, 2026 · 2:00 PM</p>
+          <span class="category-label sports-label">Sports</span>
+        </div>
+      </article>
+      <article class="event-card" data-category="Others" aria-label="Example event: Omaha Farmers Market">
+        <div class="event-image">
+          <img src="{% static 'HomePage/images/omahaFarmersMarket.jpeg' %}" alt="Shoppers walking through the Omaha Old Market farmers market">
+          <span class="event-date">Nov 15</span>
+          <span class="bookmark-icon" aria-hidden="true"><img src="{% static 'HomePage/images/bookmark.png' %}" alt=""></span>
+        </div>
+        <div class="event-details">
+          <h3>Omaha Farmers Market</h3>
+          <p>Old Market, Omaha, NE</p>
+          <p>Nov 15, 2026 · 10:00 AM</p>
+          <span class="category-label other-label">Others</span>
+        </div>
+      </article>
+    </div>
+    <p class="no-events-message" id="filter-message" hidden></p>
+  </section>
+</main>
+<script src="{% static 'HomePage/js/home_page.js' %}" defer></script>
+<script src="{% static 'HomePage/js/slideshow-manifest.js' %}"></script>
+<script defer src="{% static 'HomePage/js/home.js' %}"></script>
 {% endblock %}
