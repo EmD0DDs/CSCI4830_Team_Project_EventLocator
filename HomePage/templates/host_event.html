@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Host an Event | EventLocator{% endblock %}
+{% block content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chewy&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'HomePage/css/host_event.css' %}">
+<main class="host-page" aria-labelledby="host-title">
+  <div class="host-background" aria-hidden="true"></div>
+  <header class="host-heading">
+    <img class="host-icon" src="{% static 'HomePage/images/Host event.png' %}" alt="">
+    <div>
+      <h1 id="host-title">Host an Event</h1>
+      <p class="host-subtitle">Share something happening in your community.</p>
+    </div>
+  </header>
+  <section class="event-form-panel" aria-label="Event creation form preview">
+    <form id="event-form" autocomplete="on">
+      <div class="form-field">
+        <label for="event-name">Event Name<span aria-hidden="true">*</span></label>
+        <input type="text" id="event-name" name="event_name" placeholder="Enter your event name" required maxlength="150">
+      </div>
+      <div class="form-field description-field">
+        <label for="event-description">Event Description<span aria-hidden="true">*</span></label>
+        <textarea id="event-description" name="description" rows="5" placeholder="Tell people about your event..." required maxlength="3000"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="event-date-input">Date<span aria-hidden="true">*</span></label>
+          <div class="input-icon-wrapper">
+            <img src="{% static 'HomePage/images/calendar.png' %}" alt="">
+            <input type="date" id="event-date-input" name="event_date" required aria-label="Event date">
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="event-time-input">Time<span aria-hidden="true">*</span></label>
+          <div class="input-icon-wrapper">
+            <img src="{% static 'HomePage/images/time-2.png' %}" alt="">
+            <input type="time" id="event-time-input" name="event_time" required aria-label="Event time">
+          </div>
+        </div>
+      </div>
+      <div class="form-field location-field">
+        <label for="event-location">Location<span aria-hidden="true">*</span></label>
+        <div class="input-icon-wrapper">
+          <img class="location-icon" src="{% static 'HomePage/images/Location.jpg' %}" alt="">
+          <input id="event-location" name="location" type="text" placeholder="Enter event address or venue" required maxlength="255">
+        </div>
+      </div>
+      <div class="form-row last-form-row">
+        <div class="form-field">
+          <label for="event-category">Category<span aria-hidden="true">*</span></label>
+          <div class="select-icon-wrapper"><img src="{% static 'HomePage/images/categories.png' %}" alt=""><select id="event-category" name="category" required>
+            <option value="" selected disabled>Select a category</option>
+            <option>Music</option><option>Sports</option><option>Communication</option><option>Education</option><option>Others</option>
+          </select></div>
+        </div>
+        <div class="form-field">
+          <label for="event-visibility">Visibility</label>
+          <div class="select-icon-wrapper"><img src="{% static 'HomePage/images/visibility.png' %}" alt=""><select id="event-visibility" name="visibility">
+            <option value="public" selected>Public (visible to all)</option>
+            <option value="private">Private</option>
+          </select></div>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <button class="cancel-button" type="reset">Cancel</button>
+        <button class="submit-button" type="submit">Create Event</button>
+      </div>
+      <p role="status" aria-live="polite" id="event-message" class="form-message" hidden></p>
+    </form>
+  </section>
+</main>
+<script defer src="{% static 'HomePage/js/host_event.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,80 @@
+/* EventLocator homepage — reproduces the supplied Figma page, not the generated alternative mockups.
+   Scoped to .home-page. Teammates' base.html, login page, and Events page are untouched. */
+.home-page {
+  --text-color:#151c22; --accent-color:#16c8ca; --category-background:#bdf1f3;
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  box-sizing:border-box;
+  width:100%; max-width:1180px; min-height:0; margin:0 auto;
+  background:#f8fafc; padding:22px 18px 40px;
+  color:var(--text-color);
+}
+.home-page *, .home-page *::before, .home-page *::after {box-sizing:border-box;}
+.home-banner {
+  isolation:isolate;position:relative; width:100%; aspect-ratio:2048 / 684;
+  border-radius:8px; overflow:hidden;
+  background:#a8dafa url('../images/Hero-Omaha(1).png') center/cover no-repeat;
+}
+/* One-way crossfade: keep the old image solid underneath the incoming layer.
+   Original Omaha banner remains the first image and no base-image flashes occur. */
+.banner-slide {position:absolute;inset:0;opacity:0;pointer-events:none;
+ background-repeat:no-repeat;background-position:center center;background-size:cover;
+ transition:opacity .9s ease-in-out;will-change:opacity;z-index:0;}
+.slide-visible {opacity:1;}
+/* A very light shade behind the left-hand white type, not a replacement for the supplied banner. */
+.home-banner::before {content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
+ background:linear-gradient(90deg,rgba(0,70,117,.2) 0%,rgba(0,78,129,.08) 23%,transparent 52%);}
+.banner-text {position:relative;z-index:5;padding:21px 23px;color:#fff;
+ animation:banner-fade-in 1.8s cubic-bezier(.22,.61,.36,1) both;}
+.banner-label {display:flex;gap:10px;align-items:center;font-size:clamp(11px,1vw,14px);font-weight:700;letter-spacing:-.02em;}
+.accent-line {display:inline-block; width:42px;height:2px;background:#3bdddb;vertical-align:middle;}
+.banner-title {font-size:clamp(30px,3vw,49px); line-height:1.1; margin:20px 0 0;
+ letter-spacing:-.038em;font-weight:800; text-shadow:0 2px 5px rgba(0,32,56,.18);}
+.banner-subtitle {display:inline-block;margin-top:3px;}
+.banner-title em {font-family:'Chewy',cursive;font-weight:400;font-style:normal;color:#75f7d8;letter-spacing:0;text-shadow:0 2px 5px rgba(0,32,56,.18);}
+.category-list {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+ column-gap:3%;margin-top:18px;}
+.category-button {border:0;min-width:0;height:91px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+ gap:4px;background:var(--category-background);border-radius:9px;color:#080b0e;
+ font:700 clamp(11px,1.2vw,17px)/1.1 Inter,Arial,sans-serif;cursor:pointer;
+ transition:transform .2s ease,box-shadow .2s ease,filter .2s ease;}
+.category-button img {display:block;width:48px;height:48px;object-fit:contain;}
+.category-button:hover,.category-button:focus-visible {transform:translateY(-3px);box-shadow:0 8px 14px rgba(15,109,116,.12);}
+.category-button:focus-visible {outline:2px solid #008e9a;outline-offset:2px;}
+.category-button[aria-pressed="true"] {box-shadow:0 0 0 2px #008c95 inset;}
+.upcoming-events {margin-top:29px;}
+.section-heading {display:flex;align-items:center;gap:12px;margin-bottom:15px;}
+.section-heading h2 {margin:0;font:700 clamp(19px,1.75vw,28px)/1.2 Inter,Arial,sans-serif;letter-spacing:-.02em;}
+.section-heading .accent-line {width:42px;}
+.event-list {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4.4%;}
+.event-card {min-width:0;background:#fff;overflow:hidden;border-radius:9px;border:1px solid #e0e6e9;
+ box-shadow:0 2px 3px rgba(0,0,0,.1);transition:transform .2s ease,box-shadow .2s ease;}
+.event-card:hover {transform:translateY(-2px);box-shadow:0 6px 12px rgba(0,0,0,.1);}
+.event-image {position:relative;aspect-ratio:2.55/1;overflow:hidden;background:#e1e7eb;}
+.event-image>img {width:100%;height:100%;display:block;object-fit:cover;}
+.event-date {position:absolute;top:6px;left:7px;border-radius:5px;background:#fff;padding:5px 8px;
+ color:#19232c;font-weight:800;font-size:12px;box-shadow:0 1px 2px rgba(0,0,0,.12);}
+.bookmark-icon {position:absolute;top:6px;right:7px;width:26px;height:26px;border-radius:4px;
+ background:rgba(15,21,32,.60);display:grid;place-items:center;}
+.bookmark-icon img {width:19px;height:19px;object-fit:contain;filter:invert(1);}
+.event-details {min-height:59px;padding:7px 9px 8px;}
+.event-details h3 {margin:0 0 3px;font:700 clamp(12px,1.08vw,16px)/1.14 Inter,Arial,sans-serif;}
+.event-details p {margin:0;color:#4e5964;font:400 clamp(9px,.82vw,12px)/1.18 Inter,Arial,sans-serif;}
+.category-label {display:inline-block;background:#eecbfb;border-radius:15px;padding:1px 12px;color:#6932aa;
+ font:700 10px/1.4 Inter,Arial,sans-serif;margin-top:4px;}
+.sports-label {background:#d2f3fa;color:#097e99;}
+.other-label {background:#e1e8fc;color:#405aac;}
+/* Applied only when JS is active and the user has not requested reduced motion. */
+.home-page.animations-enabled .upcoming-events:not(.events-visible) {
+  opacity:0;transform:translateY(38px);
+}
+.upcoming-events {transition:opacity 1.8s cubic-bezier(.22,.61,.36,1),transform 1.8s cubic-bezier(.22,.61,.36,1);}
+.upcoming-events.events-visible {opacity:1;transform:translateY(0);}
+.no-events-message {font-size:13px;color:#64748b;margin-top:15px;}
+@keyframes banner-fade-in {from{opacity:0;transform:translateY(13px);}to{opacity:1;transform:translateY(0);}}
+@media(prefers-reduced-motion:reduce){.banner-text{animation:none}.category-button,.event-card,.upcoming-events,.banner-slide{transition:none!important}.upcoming-events{opacity:1!important;transform:none!important}}
+
+@media(max-width:780px){.home-page{padding:16px 12px 34px}.home-banner{aspect-ratio:auto;min-height:245px}.banner-text{padding:20px}.banner-title{font-size:32px}.category-list{grid-template-columns:repeat(3,1fr);gap:11px}.category-button{height:85px;font-size:12px}.category-button img{width:39px;height:39px}.event-list{grid-template-columns:1fr;gap:15px}.event-details h3{font-size:15px}.event-details p{font-size:11px}}
+
+/* Keep the page at design scale on large desktop displays; never stretch the panorama to 1500+ px. */
+@media (min-width:781px) and (max-width:1200px) {.home-page {padding-inline:20px;}}
+@media (max-width:780px) {.banner-slide {background-position:center;}}
