@@ -46,19 +46,20 @@
 .section-heading h2 {margin:0;font:700 clamp(19px,1.75vw,28px)/1.2 Inter,Arial,sans-serif;letter-spacing:-.02em;}
 .section-heading .accent-line {width:42px;}
 .event-list {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4.4%;}
-.event-card {min-width:0;background:#fff;overflow:hidden;border-radius:9px;border:1px solid #e0e6e9;
- box-shadow:0 2px 3px rgba(0,0,0,.1);transition:transform .2s ease,box-shadow .2s ease;}
+.event-card {min-width:0;background:#fff;overflow:anywhere;border-radius:9px;border:1px solid #e0e6e9;
+ box-shadow:0 2px 3px rgba(0,0,0,.1);transition:transform .2s ease,box-shadow .2s ease;
+ display:flex;flex-direction:column;}
 .event-card:hover {transform:translateY(-2px);box-shadow:0 6px 12px rgba(0,0,0,.1);}
-.event-image {position:relative;aspect-ratio:2.55/1;overflow:hidden;background:#e1e7eb;}
+.event-image {position:relative;aspect-ratio:2.55/1;overflow:hidden;background:linear-gradient(135deg,#b8e4ed,#dcecf2,#c5dce9);}
 .event-image>img {width:100%;height:100%;display:block;object-fit:cover;}
 .event-date {position:absolute;top:6px;left:7px;border-radius:5px;background:#fff;padding:5px 8px;
  color:#19232c;font-weight:800;font-size:12px;box-shadow:0 1px 2px rgba(0,0,0,.12);}
 .bookmark-icon {position:absolute;top:6px;right:7px;width:26px;height:26px;border-radius:4px;
  background:rgba(15,21,32,.60);display:grid;place-items:center;}
 .bookmark-icon img {width:19px;height:19px;object-fit:contain;filter:invert(1);}
-.event-details {min-height:59px;padding:7px 9px 8px;}
-.event-details h3 {margin:0 0 3px;font:700 clamp(12px,1.08vw,16px)/1.14 Inter,Arial,sans-serif;}
-.event-details p {margin:0;color:#4e5964;font:400 clamp(9px,.82vw,12px)/1.18 Inter,Arial,sans-serif;}
+.event-details {display:block;visibility:visible;min-height:100px;padding:12px 11px;color:#151c22;background:#fff; }
+.event-details h3 {display:block;margin:0 0 6px;color:#151c22;font:700 clamp(12px,1.08vw,16px)/1.3 Inter,Arial,sans-serif;}
+.event-details p {display:block;margin:0 0 4px;color:#4e5964;font:400 clamp(10px,.82vw,12px)/1.4 Inter,Arial,sans-serif; overflow-wrap:anywhere;}
 .category-label {display:inline-block;background:#eecbfb;border-radius:15px;padding:1px 12px;color:#6932aa;
  font:700 10px/1.4 Inter,Arial,sans-serif;margin-top:4px;}
 .sports-label {background:#d2f3fa;color:#097e99;}

@@ -19,6 +19,8 @@ def login_signup_view(request):
                 user = signup_form.save()
                 login(request, user)
                 return redirect('home')
+            else:
+                print(signup_form.errors)
 
 
 

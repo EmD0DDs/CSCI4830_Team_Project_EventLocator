@@ -50,7 +50,7 @@ class Events:
                 'Attendance': f"{event.get('phq_attendance', 'Not Available')}",
                 'Start_Time': f"{event.get('start_local', 'Not Available')}",
                 'End_Time': f"{event.get('end_local', 'Not Available')}",
-                'Location': event.get('geo', {}).get('address', {}),
+                'Location': event.get('geo', {}).get('address', {}).get('formatted_address', 'Location unavailable'),
             }
             events_data.append(e_data)
         
