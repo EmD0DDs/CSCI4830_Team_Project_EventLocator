@@ -11,21 +11,21 @@ SAMPLE_EVENTS = [
         "Category": "concerts",
         "Venue": "Holland Performing Arts Center",
         "Start_Time": "2026-11-20T19:30:00",
-        "Location": {"formatted_address": "1200 Douglas St, Omaha, NE"},
+        "Location": "1200 Douglas St, Omaha, NE",
     },
     {
         "Title": "Mavericks Hockey",
         "Category": "sports",
         "Venue": None,
         "Start_Time": "2026-11-21T19:00:00",
-        "Location": {"formatted_address": "Baxter Arena, Omaha, NE"},
+        "Location": "Baxter Arena, Omaha, NE",
     },
     {
         "Title": "Holiday Lights Festival",
         "Category": "festivals",
         "Venue": None,
         "Start_Time": "not a date",
-        "Location": {},
+        "Location": "Location unavailable",
     },
 ]
 
@@ -58,7 +58,7 @@ class HomePageEventsTests(TestCase):
             "Category": "academic",
             "Venue": None,
             "Start_Time": "2026-12-01T00:00:00",
-            "Location": {"formatted_address": "6001 Dodge St, Omaha, NE 68182, United States of America"},
+            "Location": "6001 Dodge St, Omaha, NE 68182, United States of America",
         }]
         response = self.client.get(reverse("home"))
 
@@ -70,7 +70,7 @@ class HomePageEventsTests(TestCase):
 
     @patch("HomePage.views.Events")
     def test_same_category_cards_take_turns_with_pictures(self, MockEvents):
-        game = {"Title": "Game", "Category": "sports", "Venue": "Arena", "Start_Time": "2026-12-01T19:00:00", "Location": {}}
+        game = {"Title": "Game", "Category": "sports", "Venue": "Arena", "Start_Time": "2026-12-01T19:00:00", "Location": "Location unavailable"}
         MockEvents.return_value.get_event.return_value = [game, game]
         response = self.client.get(reverse("home"))
 

@@ -87,7 +87,9 @@ def _to_card(event, index_in_group):
         start = datetime.fromisoformat(event.get("Start_Time", ""))
     except ValueError:
         start = None
-    address = (event.get("Location") or {}).get("formatted_address") or ""
+    address = event.get("Location") or ""
+    if address == "Location unavailable":
+        address = ""
     address = address.removesuffix(", United States of America")
     return {
         "title": event.get("Title"),
