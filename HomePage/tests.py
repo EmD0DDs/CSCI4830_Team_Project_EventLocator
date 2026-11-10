@@ -72,6 +72,17 @@ class HomePageEventsTests(TestCase):
         self.assertContains(response, "HomePage/images/slides/slide11.jpg")
 
     @patch("HomePage.views.Events")
+    def test_performing_arts_counts_as_music(self, MockEvents):
+        MockEvents.return_value.get_event.return_value = [{
+            "Title": "Lion King Musical", "Category": "performing-arts", "Venue": "Orpheum Theater",
+            "Start_Time": "2026-12-01T19:30:00", "Location": "Location unavailable",
+        }]
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, 'data-category="Music"')
+        self.assertContains(response, "music-label")
+
+    @patch("HomePage.views.Events")
     def test_same_category_cards_take_turns_with_pictures(self, MockEvents):
         game = {"Title": "Game", "Category": "sports", "Venue": "Arena", "Start_Time": "2026-12-01T19:00:00", "Location": "Location unavailable"}
         MockEvents.return_value.get_event.return_value = [game, game]

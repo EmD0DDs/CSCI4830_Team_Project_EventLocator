@@ -22,6 +22,7 @@ PREDICTHQ_CATEGORIES = "concerts,sports,conferences,expos,academic,community,fes
 # PredictHQ category -> home page category button
 CATEGORY_GROUPS = {
     "concerts": "Music",
+    "performing-arts": "Music",
     "sports": "Sports",
     "conferences": "Communication",
     "expos": "Communication",
