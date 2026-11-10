@@ -15,9 +15,9 @@ class Events:
     
 
 
-    def get_event(self, category : str, radius : float, unit : str, location : str , offset : int, lat : float = None, lon : float = None) -> list[dict]:
+    def get_event(self, category : str, radius : float, unit : str, location : str , offset : int, lat : float = None, lon : float = None, limit : int = 50) -> list[dict]:
         events_data =[]
-        limit = 50 #I think free plan caps at 50 
+        # limit: I think free plan caps at 50
         # Skip geocoding when the caller already has coordinates (e.g. from the browser)
         if lat is None or lon is None:
             locationData = self.geolocator.geocode(location)

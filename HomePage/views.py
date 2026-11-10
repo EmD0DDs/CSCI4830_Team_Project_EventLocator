@@ -1,4 +1,5 @@
 import logging
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, time, timedelta
 
 from django.shortcuts import render, redirect
@@ -14,19 +15,25 @@ logger = logging.getLogger(__name__)
 # Downtown Omaha, used when the browser doesn't send a location
 OMAHA_LAT, OMAHA_LON = 41.2565, -95.9345
 SEARCH_RADIUS_MILES = 25
-MAX_CARDS = 12
+CARDS_PER_GROUP = 3
 CACHE_SECONDS = 15 * 60
 
-PREDICTHQ_CATEGORIES = "concerts,sports,conferences,expos,academic,community,festivals,performing-arts"
+# Home page category button -> PredictHQ categories.
+# Each button gets its own API request, so busy categories (lots of "community" events)
+# can't push the others off the page.
+GROUP_CATEGORIES = {
+    "Music": "concerts,performing-arts",
+    "Sports": "sports",
+    "Communication": "conferences,expos",
+    "Education": "academic",
+    "Others": "community,festivals",
+}
 
 # PredictHQ category -> home page category button
 CATEGORY_GROUPS = {
-    "concerts": "Music",
-    "performing-arts": "Music",
-    "sports": "Sports",
-    "conferences": "Communication",
-    "expos": "Communication",
-    "academic": "Education",
+    category: group
+    for group, categories in GROUP_CATEGORIES.items()
+    for category in categories.split(",")
 }
 
 # Card pictures and label style for each home page category (the API has no event photos).
@@ -110,24 +117,37 @@ def _to_card(event, index_in_group):
     }
 
 
+def _group_events(group, lat, lon):
+    """The soonest few events for one category button, or None if the request failed."""
+    try:
+        return Events().get_event(GROUP_CATEGORIES[group], SEARCH_RADIUS_MILES, "mi", "Omaha", 0,
+                                  lat=lat, lon=lon, limit=CARDS_PER_GROUP)
+    except Exception:
+        logger.exception("Could not load %s events from PredictHQ", group)
+        return None
+
+
 def upcoming_events(lat, lon):
-    """Upcoming events near (lat, lon) as card dicts. Cached; returns [] if the API fails."""
+    """Upcoming events near (lat, lon) as card dicts, a few per category, soonest first.
+    Cached; returns [] if the API fails."""
     cache_key = f"home-events:{lat}:{lon}"
     cards = cache.get(cache_key)
     if cards is not None:
         return cards
-    try:
-        events = Events().get_event(PREDICTHQ_CATEGORIES, SEARCH_RADIUS_MILES, "mi", "Omaha", 0, lat=lat, lon=lon)
-    except Exception:
-        logger.exception("Could not load events from PredictHQ")
+    # One request per category, sent at the same time so the page isn't slowed down
+    with ThreadPoolExecutor(max_workers=len(GROUP_CATEGORIES)) as pool:
+        results = list(pool.map(lambda group: _group_events(group, lat, lon), GROUP_CATEGORIES))
+    if all(events is None for events in results):
         return []
     cards = []
-    seen_per_group = {}
-    for event in events[:MAX_CARDS]:
-        group = CATEGORY_GROUPS.get(event.get("Category"), "Others")
-        cards.append(_to_card(event, seen_per_group.get(group, 0)))
-        seen_per_group[group] = seen_per_group.get(group, 0) + 1
-    cache.set(cache_key, cards, CACHE_SECONDS)
+    for events in results:
+        for index, event in enumerate((events or [])[:CARDS_PER_GROUP]):
+            cards.append(_to_card(event, index))
+    # Cards without a date go last
+    cards.sort(key=lambda card: (card["start"] is None, card["start"] or datetime.max))
+    # Only cache complete results, so a failed category is retried on the next visit
+    if None not in results:
+        cache.set(cache_key, cards, CACHE_SECONDS)
     return cards
 
 
