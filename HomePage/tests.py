@@ -10,6 +10,7 @@ SAMPLE_EVENTS = [
         "Title": "Omaha Symphony",
         "Category": "concerts",
         "Venue": "Holland Performing Arts Center",
+        "Attendance": "1200",
         "Start_Time": "2026-11-20T19:30:00",
         "Location": "1200 Douglas St, Omaha, NE",
     },
@@ -50,6 +51,8 @@ class HomePageEventsTests(TestCase):
         # Unknown category goes to Others; bad date is skipped instead of crashing
         self.assertContains(response, 'data-category="Others"')
         self.assertNotContains(response, "sample events")
+        # Attendance shown with a thousands separator; events without it don't get the line
+        self.assertContains(response, "Expected attendance: 1,200", count=1)
 
     @patch("HomePage.views.Events")
     def test_all_day_event_hides_midnight_and_country(self, MockEvents):

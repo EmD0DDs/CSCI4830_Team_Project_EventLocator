@@ -56,6 +56,7 @@
           <h3>{{ event.title }}</h3>
           <p>{{ event.place }}</p>
           {% if event.show_time %}<p>{{ event.start|date:"M j, Y · g:i A" }}</p>{% elif event.start %}<p>{{ event.start|date:"M j, Y" }}</p>{% endif %}
+          {% if event.attendance %}<p>Expected attendance: {{ event.attendance }}</p>{% endif %}
           <span class="category-label {{ event.label_class }}">{{ event.category }}</span>
         </div>
       </article>

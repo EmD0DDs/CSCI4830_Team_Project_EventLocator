@@ -91,9 +91,15 @@ def _to_card(event, index_in_group):
     if address == "Location unavailable":
         address = ""
     address = address.removesuffix(", United States of America")
+    # PredictHQ's predicted attendance; APIcalls turns missing values into "None"/"Not Available"
+    try:
+        attendance = int(event.get("Attendance", ""))
+    except ValueError:
+        attendance = None
     return {
         "title": event.get("Title"),
         "place": event.get("Venue") or address or "Omaha, NE",
+        "attendance": f"{attendance:,}" if attendance else None,
         "start": start,
         # All-day events start at midnight; show only the date for those
         "show_time": start is not None and (start.hour, start.minute) != (0, 0),
