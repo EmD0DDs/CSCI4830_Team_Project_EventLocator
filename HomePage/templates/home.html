@@ -40,47 +40,26 @@
       <h2 id="upcoming-title">Upcoming Events</h2>
       <span class="accent-line" aria-hidden="true"></span>
     </div>
-    {# Demo examples only, not real event listings. API and database integration to follow. #}
+    {# Upcoming events from the PredictHQ API (see views.upcoming_events); sample cards if the API gives nothing. Bookmarks are not saved yet. #}
+    {% if is_demo %}
+    <p class="no-events-message">Live events are unavailable right now, so these are sample events.</p>
+    {% endif %}
     <div class="event-list">
-      <article class="event-card" data-category="Music" aria-label="Example event: UNO Fall Concert">
+      {% for event in events %}
+      <article class="event-card" data-category="{{ event.category }}" aria-label="{{ event.title }}">
         <div class="event-image">
-          <img src="{% static 'HomePage/images/concert(1).webp' %}" alt="Concert crowd and illuminated stage">
-          <span class="event-date">Nov 7</span>
+          <img src="{% static event.image %}" alt="{{ event.alt|default:'' }}">
+          {% if event.start %}<span class="event-date">{{ event.start|date:"M j" }}</span>{% endif %}
           <span class="bookmark-icon" aria-hidden="true"><img src="{% static 'HomePage/images/bookmark.png' %}" alt=""></span>
         </div>
         <div class="event-details">
-          <h3>UNO Fall Concert</h3>
-          <p>Baxter Arena</p>
-          <p>Nov 7th 2026 · 7:00 PM</p>
-          <span class="category-label music-label">Music</span>
+          <h3>{{ event.title }}</h3>
+          <p>{{ event.place }}</p>
+          {% if event.show_time %}<p>{{ event.start|date:"M j, Y · g:i A" }}</p>{% elif event.start %}<p>{{ event.start|date:"M j, Y" }}</p>{% endif %}
+          <span class="category-label {{ event.label_class }}">{{ event.category }}</span>
         </div>
       </article>
-      <article class="event-card" data-category="Sports" aria-label="Example event: UNO Mavericks Home Game">
-        <div class="event-image">
-          <img src="{% static 'HomePage/images/Baskeball.jpg' %}" alt="Basketball players on an indoor court">
-          <span class="event-date">Nov 8</span>
-          <span class="bookmark-icon" aria-hidden="true"><img src="{% static 'HomePage/images/bookmark.png' %}" alt=""></span>
-        </div>
-        <div class="event-details">
-          <h3>UNO Mavericks Home Game</h3>
-          <p>Baxter Arena, Omaha, NE</p>
-          <p>Nov 8, 2026 · 2:00 PM</p>
-          <span class="category-label sports-label">Sports</span>
-        </div>
-      </article>
-      <article class="event-card" data-category="Others" aria-label="Example event: Omaha Farmers Market">
-        <div class="event-image">
-          <img src="{% static 'HomePage/images/omahaFarmersMarket.jpeg' %}" alt="Shoppers walking through the Omaha Old Market farmers market">
-          <span class="event-date">Nov 15</span>
-          <span class="bookmark-icon" aria-hidden="true"><img src="{% static 'HomePage/images/bookmark.png' %}" alt=""></span>
-        </div>
-        <div class="event-details">
-          <h3>Omaha Farmers Market</h3>
-          <p>Old Market, Omaha, NE</p>
-          <p>Nov 15, 2026 · 10:00 AM</p>
-          <span class="category-label other-label">Others</span>
-        </div>
-      </article>
+      {% endfor %}
     </div>
     <p class="no-events-message" id="filter-message" hidden></p>
   </section>
