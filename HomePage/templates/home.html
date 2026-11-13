@@ -40,17 +40,26 @@
       <h2 id="upcoming-title">Upcoming Events</h2>
       <span class="accent-line" aria-hidden="true"></span>
     </div>
-    {# Demo examples only, not real event listings. API and database integration to follow. #}
+    {# Upcoming events from the PredictHQ API (see views.upcoming_events); sample cards if the API gives nothing. Bookmarks are not saved yet. #}
+    {% if is_demo %}
+    <p class="no-events-message">Live events are unavailable right now, so these are sample events.</p>
+    {% endif %}
     <div class="event-list">
       {% for event in events %}
-        <article class="event-card">
-          <div class="event-details">
-            <h3>{{ event.Title }}</h3>
-            <p>{{ event.Location }}</p>
-            <p>Attendance: {{ event.Attendance }}</p>
-            <p>Ends: {{ event.End_Time }}</p>
-          </div>
-        </article>
+      <article class="event-card" data-category="{{ event.category }}" aria-label="{{ event.title }}">
+        <div class="event-image">
+          <img src="{% static event.image %}" alt="{{ event.alt|default:'' }}">
+          {% if event.start %}<span class="event-date">{{ event.start|date:"M j" }}</span>{% endif %}
+          <span class="bookmark-icon" aria-hidden="true"><img src="{% static 'HomePage/images/bookmark.png' %}" alt=""></span>
+        </div>
+        <div class="event-details">
+          <h3>{{ event.title }}</h3>
+          <p>{{ event.place }}</p>
+          {% if event.show_time %}<p>{{ event.start|date:"M j, Y · g:i A" }}</p>{% elif event.start %}<p>{{ event.start|date:"M j, Y" }}</p>{% endif %}
+          {% if event.attendance %}<p>Expected attendance: {{ event.attendance }}</p>{% endif %}
+          <span class="category-label {{ event.label_class }}">{{ event.category }}</span>
+        </div>
+      </article>
       {% endfor %}
     </div>
     <p class="no-events-message" id="filter-message" hidden></p>
