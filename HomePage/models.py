@@ -1,30 +1,36 @@
 from django.conf import settings
 from django.db import models
 
-# Create your models here.
+
 class Event(models.Model):
+    CATEGORY_CHOICES = [
+        ("Music", "Music"),
+        ("Sports", "Sports"),
+        ("Communication", "Communication"),
+        ("Education", "Education"),
+        ("Others", "Others"),
+    ]
+    VISIBILITY_CHOICES = [
+        ("public", "Public"),
+        ("private", "Private"),
+    ]
+
     event_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    organization = models.ForeignKey(
-        "Organization",
-        on_delete=models.PROTECT,
+    host = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
         related_name="events",
     )
     date = models.DateField()
     time = models.TimeField()
     location = models.CharField(max_length=255)
-    age_req = models.IntegerField()
+    age_req = models.IntegerField(default=0)
     description = models.TextField()
-    price = models.FloatField()
-    validation = models.BooleanField()
-
-
-    def __str__(self):
-        return self.name
-
-
-class Organization(models.Model):
-    name = models.CharField(max_length=255)
+    price = models.FloatField(default=0)
+    validation = models.BooleanField(default=False)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default="Others")
+    visibility = models.CharField(max_length=10, choices=VISIBILITY_CHOICES, default="public")
 
     def __str__(self):
         return self.name

@@ -15,29 +15,31 @@
       <p class="host-subtitle">Share something happening in your community.</p>
     </div>
   </header>
-  <section class="event-form-panel" aria-label="Event creation form preview">
-    <form id="event-form" autocomplete="on">
+  <section class="event-form-panel" aria-label="Event creation form">
+    <form id="event-form" method="post" autocomplete="on">
+      {% csrf_token %}
+
       <div class="form-field">
         <label for="event-name">Event Name<span aria-hidden="true">*</span></label>
-        <input type="text" id="event-name" name="event_name" placeholder="Enter your event name" required maxlength="150">
+        <input type="text" id="event-name" name="name" placeholder="Enter your event name" required maxlength="150" value="{{ form.name.value|default:'' }}">
       </div>
       <div class="form-field description-field">
         <label for="event-description">Event Description<span aria-hidden="true">*</span></label>
-        <textarea id="event-description" name="description" rows="5" placeholder="Tell people about your event..." required maxlength="3000"></textarea>
+        <textarea id="event-description" name="description" rows="5" placeholder="Tell people about your event..." required maxlength="3000">{{ form.description.value|default:'' }}</textarea>
       </div>
       <div class="form-row">
         <div class="form-field">
           <label for="event-date-input">Date<span aria-hidden="true">*</span></label>
           <div class="input-icon-wrapper">
             <img src="{% static 'HomePage/images/calendar.png' %}" alt="">
-            <input type="date" id="event-date-input" name="event_date" required aria-label="Event date">
+            <input type="date" id="event-date-input" name="date" required aria-label="Event date" value="{{ form.date.value|default:'' }}">
           </div>
         </div>
         <div class="form-field">
           <label for="event-time-input">Time<span aria-hidden="true">*</span></label>
           <div class="input-icon-wrapper">
             <img src="{% static 'HomePage/images/time-2.png' %}" alt="">
-            <input type="time" id="event-time-input" name="event_time" required aria-label="Event time">
+            <input type="time" id="event-time-input" name="time" required aria-label="Event time" value="{{ form.time.value|default:'' }}">
           </div>
         </div>
       </div>
@@ -45,7 +47,7 @@
         <label for="event-location">Location<span aria-hidden="true">*</span></label>
         <div class="input-icon-wrapper">
           <img class="location-icon" src="{% static 'HomePage/images/Location.jpg' %}" alt="">
-          <input id="event-location" name="location" type="text" placeholder="Enter event address or venue" required maxlength="255">
+          <input id="event-location" name="location" type="text" placeholder="Enter event address or venue" required maxlength="255" value="{{ form.location.value|default:'' }}">
         </div>
       </div>
       <div class="form-row last-form-row">
@@ -53,7 +55,11 @@
           <label for="event-category">Category<span aria-hidden="true">*</span></label>
           <div class="select-icon-wrapper"><img src="{% static 'HomePage/images/categories.png' %}" alt=""><select id="event-category" name="category" required>
             <option value="" selected disabled>Select a category</option>
-            <option>Music</option><option>Sports</option><option>Communication</option><option>Education</option><option>Others</option>
+            <option value="Music">Music</option>
+            <option value="Sports">Sports</option>
+            <option value="Communication">Communication</option>
+            <option value="Education">Education</option>
+            <option value="Others">Others</option>
           </select></div>
         </div>
         <div class="form-field">
@@ -68,9 +74,30 @@
         <button class="cancel-button" type="reset">Cancel</button>
         <button class="submit-button" type="submit">Create Event</button>
       </div>
-      <p role="status" aria-live="polite" id="event-message" class="form-message" hidden></p>
+
+      {% for message in messages %}
+        <p class="form-message" role="status">{{ message }}</p>
+      {% endfor %}
+      {% if form.errors %}
+        <ul class="form-message">
+          {% for field, errs in form.errors.items %}
+            {% for e in errs %}<li>{{ field }}: {{ e }}</li>{% endfor %}
+          {% endfor %}
+        </ul>
+      {% endif %}
     </form>
   </section>
 </main>
-<script defer src="{% static 'HomePage/js/host_event.js' %}"></script>
+<script>
+  (() => {
+    const dateInput = document.getElementById('event-date-input');
+    if (dateInput) {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      dateInput.min = `${year}-${month}-${day}`;
+    }
+  })();
+</script>
 {% endblock %}

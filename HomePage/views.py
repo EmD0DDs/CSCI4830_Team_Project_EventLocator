@@ -3,12 +3,15 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, time, timedelta
 
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.http import HttpResponse
+
 from django.utils import timezone
 
 from .APIcalls import Events
+from .forms import EventForm
 
 logger = logging.getLogger(__name__)
 
@@ -150,7 +153,6 @@ def upcoming_events(lat, lon):
         cache.set(cache_key, cards, CACHE_SECONDS)
     return cards
 
-
 # Create your views here.
 @login_required(login_url='login_signup')
 def home_page(request):
@@ -160,3 +162,20 @@ def home_page(request):
     if is_demo:
         events = demo_events()
     return render(request, 'home.html', {"events": events, "is_demo": is_demo})
+  
+    
+    
+
+@login_required(login_url='login_signup')
+def host_event(request):
+    if request.method == "POST":
+        form = EventForm(request.POST)
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.host = request.user
+            event.save()
+            messages.success(request, "Event created!")
+            return redirect("host_event")
+    else:
+        form = EventForm()
+    return render(request, "host_event.html", {"form": form})
