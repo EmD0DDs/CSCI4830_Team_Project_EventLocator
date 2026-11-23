@@ -41,7 +41,8 @@
       <span class="accent-line" aria-hidden="true"></span>
     </div>
     {# Demo examples only, not real event listings. API and database integration to follow. #}
-    <div class="event-list">
+
+    {% comment %} <div class="event-list">
       {% for event in events %}
         <article class="event-card">
           <div class="event-details">
@@ -52,7 +53,8 @@
           </div>
         </article>
       {% endfor %}
-    </div>
+    </div>  {% endcomment %}
+
     <p class="no-events-message" id="filter-message" hidden></p>
   </section>
 </main>
