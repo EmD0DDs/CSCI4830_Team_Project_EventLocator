@@ -11,9 +11,9 @@ from .models import Event
 # Create your views here.
 @login_required(login_url='login_signup')
 def home_page(request):
-    return render(request, 'home.html')
-    # events = APIcalls.Events().get_event(category="None",radius=25,unit="mi",location="Omaha, NE",offset=0)
-    # return render(request, 'home.html', {'events': events})
+    #return render(request, 'home.html')
+    events = APIcalls.Events().get_event(category="None",radius=25,unit="mi",location="Omaha, NE",offset=0)
+    return render(request, 'home.html', {'events': events})
 
 @login_required(login_url='login_signup')
 def host_event(request):
