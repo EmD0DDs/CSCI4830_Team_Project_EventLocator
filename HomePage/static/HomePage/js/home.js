@@ -1,4 +1,4 @@
-/* EventLocator homepage frontend preview. Event cards use local demonstration data only. */
+/* EventLocator homepage frontend. Event cards come from the PredictHQ API (HomePage/views.py). */
 (() => {
   const homePage = document.querySelector('.home-page');
   if (!homePage) return;
@@ -153,7 +153,7 @@
       });
       if (filterMessage) {
         filterMessage.hidden = visibleCount > 0;
-        filterMessage.textContent = selectedCategory ? `No sample ${selectedCategory.toLowerCase()} events are displayed yet.` : '';
+        filterMessage.textContent = selectedCategory ? `No upcoming ${selectedCategory.toLowerCase()} events found nearby.` : '';
       }
     });
   });

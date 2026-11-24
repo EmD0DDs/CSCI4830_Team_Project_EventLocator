@@ -1,5 +1,6 @@
 const params = new URLSearchParams(window.location.search);
-if (!params.has('lat') || !params.has('lon')) {
+// Browsers only allow geolocation on HTTPS (or localhost); otherwise the server falls back to Omaha
+if (window.isSecureContext && navigator.geolocation && (!params.has('lat') || !params.has('lon'))) {
     navigator.geolocation.getCurrentPosition( 
     (position) => {
         
@@ -8,7 +9,7 @@ if (!params.has('lat') || !params.has('lon')) {
         window.location.href = `/home/?lat=${lat}&lon=${lon}`;
     },
     (error) => {
-        alert("We couldn't get your location. Please type your city instead.");
+        console.warn("EventLocator: location unavailable, showing events near Omaha.");
     }
     ); 
 }
