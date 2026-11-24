@@ -17,10 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import RedirectView
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('LoginSignup.urls')),
     path('home/', include('HomePage.urls')),
     path('', RedirectView.as_view(url='/login/', permanent=False)),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
